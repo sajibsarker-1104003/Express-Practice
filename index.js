@@ -3,74 +3,15 @@ const app = express();
 
 const fs = require("fs");
 
-const db = require("./db");
+
 
 app.use(express.json());
 
-const studentList=(req, res) => {
-  db.getDBstudents().then((students) => {
-    res.send(students);
-  });
-}
-
-const newStudent=(req, res) => {
-  const student = req.body;
-  db.getDBstudents().then((students) => {
-    students.push(student);
-    db.insertDBstudents(students).then((data) => {
-      res.send(student);
-    });
-  });
-}
-
-const studentDetail= (req, res) => {
-  const id = parseInt(req.params.id);
-  db.getDBstudents().then((students) => {
-    const student = students.find((s) => s.id === id);
-    if (!student) res.status(404).send("No student found this id");
-    else res.send(student);
-  });
-}
-
-const studentUpdate=(req, res) => {
-  const id = parseInt(req.params.id);
-  const updatedData = req.body;
-
-  db.getDBstudents().then((students) => {
-    const student = students.find((s) => s.id === id);
-    if (!student) res.status(404).send("No student found this id");
-    else {
-      const i = students.findIndex((s) => s.id === id);
-      students[i] = updatedData;
-
-      db.insertDBstudents(students).then((msg) => {
-        res.send(updatedData);
-      });
-    }
-  });
-}
-
-const studentDelete=(req,res)=>{
-  const id=parseInt(req.params.id);
-  db.getDBstudents().then((students) => {
-    const student = students.find((s) => s.id === id);
-    if (!student) res.status(404).send("No student found this id");
-   const updatedStudents=students.filter(s=> s.id!==id );
-   db.insertDBstudents(updatedStudents).then(msg=>{
-     res.send(student);
-   })
-  });
-  }
+const studentRouter=require('./routers/studentRouter');
 
 
-  app.route("/api/students")
-  .get(studentList)
-  .post(newStudent);
+app.use('/api/students',studentRouter);
 
-  app.route('/api/students/:id')
-  .get(studentDetail)
-  .put(studentUpdate)
-  .delete(studentDelete);
 
 
 
