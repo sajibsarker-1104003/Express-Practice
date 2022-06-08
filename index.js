@@ -33,10 +33,29 @@ app.get('/api/students/:id',(req,res)=>{
     const student=students.find(s=>s.id===id);
     if(!student) res.status(404).send("No student found this id");
     else res.send(student);
+  })  
+  
+})
+
+app.put('/api/students/:id',(req, res)=>{
+  const id=parseInt(req.params.id);
+  const updatedData=req.body;
+
+  db.getDBstudents().then((students)=>{
+    const student=students.find(s=>s.id===id);
+    if(!student) res.status(404).send("No student found this id");
+    else{
+      const i=students.findIndex(s=>s.id===id);
+      students[i]=updatedData;
+
+      db.insertDBstudents(students).then((msg)=>{
+        res.send(updatedData);
+      })
+    }
   })
-  
-  
-  console.log(req.params.id);
+
+
+
 })
 
 const port = 3001;
