@@ -25,9 +25,12 @@ const student=req.body;
 fs.readFile('./db.json','utf-8',(err,data)=>{
   const students=JSON.parse(data);
   students.students.push(student);
-  console.log(students);
+  
+  fs.writeFile('./db.json',JSON.stringify(students),(err)=>{
+    res.send(student);
+  })
 })
-res.send("posted");
+
  })
 
  const port=3000;
