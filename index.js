@@ -7,17 +7,13 @@ const db = require("./db");
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("hello world from Express js!!");
-});
-
-app.get("/api/students", (req, res) => {
+const studentList=(req, res) => {
   db.getDBstudents().then((students) => {
     res.send(students);
   });
-});
+}
 
-app.post("/api/students", (req, res) => {
+const newStudent=(req, res) => {
   const student = req.body;
   db.getDBstudents().then((students) => {
     students.push(student);
@@ -25,18 +21,18 @@ app.post("/api/students", (req, res) => {
       res.send(student);
     });
   });
-});
+}
 
-app.get("/api/students/:id", (req, res) => {
+const studentDetail= (req, res) => {
   const id = parseInt(req.params.id);
   db.getDBstudents().then((students) => {
     const student = students.find((s) => s.id === id);
     if (!student) res.status(404).send("No student found this id");
     else res.send(student);
   });
-});
+}
 
-app.put("/api/students/:id", (req, res) => {
+const studentUpdate=(req, res) => {
   const id = parseInt(req.params.id);
   const updatedData = req.body;
 
@@ -52,19 +48,37 @@ app.put("/api/students/:id", (req, res) => {
       });
     }
   });
-});
+}
 
-app.delete('/api/students/:id',(req,res)=>{
-const id=parseInt(req.params.id);
-db.getDBstudents().then((students) => {
-  const student = students.find((s) => s.id === id);
-  if (!student) res.status(404).send("No student found this id");
- const updatedStudents=students.filter(s=> s.id!==id );
- db.insertDBstudents(updatedStudents).then(msg=>{
-   res.send(student);
- })
-});
-})
+const studentDelete=(req,res)=>{
+  const id=parseInt(req.params.id);
+  db.getDBstudents().then((students) => {
+    const student = students.find((s) => s.id === id);
+    if (!student) res.status(404).send("No student found this id");
+   const updatedStudents=students.filter(s=> s.id!==id );
+   db.insertDBstudents(updatedStudents).then(msg=>{
+     res.send(student);
+   })
+  });
+  }
+
+app.get("/api/students",studentList);
+
+
+
+app.post("/api/students",newStudent);
+
+
+
+app.get("/api/students/:id",studentDetail);
+
+
+
+app.put("/api/students/:id",studentUpdate);
+
+
+
+app.delete('/api/students/:id',studentDelete);
 
 const port = 3001;
 app.listen(port, () => {
