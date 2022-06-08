@@ -4,9 +4,12 @@ const app = express();
 const fs = require("fs");
 const studentRouter=require('./routers/studentRouter');
 
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use(express.static('public'));
+const morgan=require('morgan');
+
+app.use(express.json());//Built In Middleware
+app.use(express.urlencoded({extended:true}));//Built In Middleware
+app.use(express.static('public'));//Built In Middleware
+app.use(morgan('dev'));//Third party middleware
 
 
 app.use((req,res,next)=>{
