@@ -62,23 +62,18 @@ const studentDelete=(req,res)=>{
   });
   }
 
-app.get("/api/students",studentList);
+
+  app.route("/api/students")
+  .get(studentList)
+  .post(newStudent);
+
+  app.route('/api/students/:id')
+  .get(studentDetail)
+  .put(studentUpdate)
+  .delete(studentDelete);
 
 
 
-app.post("/api/students",newStudent);
-
-
-
-app.get("/api/students/:id",studentDetail);
-
-
-
-app.put("/api/students/:id",studentUpdate);
-
-
-
-app.delete('/api/students/:id',studentDelete);
 
 const port = 3001;
 app.listen(port, () => {
