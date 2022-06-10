@@ -8,7 +8,7 @@ const fs = require("fs");
 
 const studentList=(req, res) => {
  
-  });
+ 
 }
 
 const newStudent=(req, res) => {

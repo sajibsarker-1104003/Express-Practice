@@ -5,6 +5,12 @@ const fs = require("fs");
 const studentRouter=require('./routers/studentRouter');
 
 const morgan=require('morgan');
+const mongoose=require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/my-students-2')
+.then(()=>console.log("Mongodb Connected Succesfully"))
+.catch(err=>console.error("Mongodb Connected Failed"));
+
 
 app.use(express.json());//Built In Middleware
 //app.use(express.urlencoded({extended:true}));//Built In Middleware
