@@ -8,17 +8,19 @@ const userRouter=require('./routers/userRouter');
 const authRouter=require('./routers/authRouter');
 
 const morgan=require('morgan');
-const mongoose=require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/my-students-2')
-.then(()=>console.log("Mongodb Connected Succesfully"))
-.catch(err=>console.error("Mongodb Connected Failed"));
+
+
 
 
 app.use(express.json());//Built In Middleware
 //app.use(express.urlencoded({extended:true}));//Built In Middleware
 //app.use(express.static('public'));//Built In Middleware
+
+if(process.env.NODE_ENV==='development'){
+  console.log('Development Server');
 app.use(morgan('dev'));//Third party middleware
+}
 
 
 app.use((req,res,next)=>{
@@ -45,7 +47,4 @@ app.use('/',(req,res)=>{
 
 
 
-const port = 3001;
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+module.exports = app;
