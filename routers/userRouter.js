@@ -1,7 +1,7 @@
 const express = require("express");
 const { User } = require("../models/user");
 const router = express.Router();
-const bcrypt=require("bcrypt");
+const bcrypt = require("bcrypt");
 
 //Check user by email => send err msg =>save user
 
@@ -21,9 +21,14 @@ const newUser = async (req, res) => {
 
   try {
     const result = await user.save();
+
+    const token = user.generateJwt();
     res.send({
-      name: result.name,
-      email: result.email,
+      token: token,
+      data: {
+        name: result.name,
+        email: result.email,
+      },
     });
   } catch (err) {
     const errMsg = [];
