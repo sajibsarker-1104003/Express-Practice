@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 
 const fs = require("fs");
+
 const studentRouter=require('./routers/studentRouter');
+const userRouter=require('./routers/userRouter');
 
 const morgan=require('morgan');
 const mongoose=require('mongoose');
@@ -28,6 +30,7 @@ app.use((req,res,next)=>{
   next();
 });
 app.use('/api/students',studentRouter);
+app.use('/api/user',userRouter);
 
 app.use('/',(req,res,next)=>{  
   next();
