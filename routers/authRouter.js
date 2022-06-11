@@ -13,7 +13,7 @@ if(!validUser)return res.status(400).send('Invalid email and password');
 
 const token=jwt.sign({
   _id:user._id,email:user.email
-},'secretKey');
+},process.env.mySecretKey);
 
 res.send(token);
 }
