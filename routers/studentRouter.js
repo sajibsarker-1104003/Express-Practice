@@ -46,15 +46,31 @@ const studentDetail= async(req, res) => {
   
 }
 
-const studentUpdate=(req, res) => {
-  const id = parseInt(req.params.id);
+const studentUpdate=async(req, res) => {
+  const id = req.params.id;
   const updatedData = req.body;
+  try{
+    const student=await Student.findByIdAndUpdate(id,updatedData,{new:true});
+    if(!student) return res.status(400).send("ID not found");
+    res.send(student);
+  }catch(err){
+    return res.status(400).send("ID not found");
+  }
 
   
 }
 
-const studentDelete=(req,res)=>{
-  const id=parseInt(req.params.id);
+const studentDelete=async(req,res)=>{
+  const id=req.params.id;
+
+  try{
+    const student=await Student.findByIdAndDelete(id);
+    if(!student) return res.status(400).send("ID not found");
+    res.send(student);
+
+  }catch(err){
+    return res.status(400).send("ID not found");
+  }
   
   }
 
