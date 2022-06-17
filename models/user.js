@@ -21,11 +21,16 @@ const userSchema = Schema({
     minLength: 5,
     maxLength: 1024,
   },
+  role:{
+    type: String,
+    enum:['user','admin'],
+    default:'user'
+  }
 });
 
 userSchema.methods.genrateJWT=function(){
   const token=jwt.sign({
-    _id:this._id,email:this.email
+    _id:this._id,email:this.email,role:this.role
   },process.env.mySecretKey);
   return token;
 }
