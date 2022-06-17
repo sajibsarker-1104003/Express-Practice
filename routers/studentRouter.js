@@ -7,7 +7,7 @@ const fs = require("fs");
 
 
 const studentList=async(req, res) => {
-
+  console.log(req.header);
   const students=await Student.find()
   .sort({name:1});
   res.send(students);
@@ -17,7 +17,7 @@ const studentList=async(req, res) => {
 }
 
 const newStudent=async(req, res) => {
- 
+  console.log(req.header('Content-Type'));
   const student =new Student(req.body)
   try{
     const result= await student.save();
