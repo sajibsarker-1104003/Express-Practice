@@ -2,6 +2,7 @@ const express = require("express");
 const { User } = require("../models/user");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const authorize=require('../middlewares/authorize');
 
 //Check user by email => send err msg =>save user
 
@@ -39,5 +40,10 @@ const newUser = async (req, res) => {
   }
 };
 router.route("/").post(newUser);
+
+router.route('/me')
+.get(authorize,(req,res)=>{
+  res.send(req.user);
+});
 
 module.exports = router;

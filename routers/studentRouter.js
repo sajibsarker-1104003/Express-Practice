@@ -84,5 +84,7 @@ const studentDelete=async(req,res)=>{
   .put(studentUpdate)
   .delete(studentDelete);
 
+ 
+
 
   module.exports = router;
